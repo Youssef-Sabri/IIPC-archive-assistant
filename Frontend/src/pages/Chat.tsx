@@ -31,7 +31,7 @@ const suggestionQueries = [
   "What are the latest best practices for web crawling?",
   "How do IIPC members handle quality assurance?", 
   "What legal issues affect web archiving?",
-  "Who is the creator of WARCrefs for Deduplicating Web Archives?"
+  "Creator of WARCrefs for Deduplicating Web Archives?"
 ];
 
 export default function Chat() {

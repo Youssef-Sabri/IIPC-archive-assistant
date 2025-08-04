@@ -508,10 +508,6 @@ npm run test
 npm run test:e2e
 ```
 
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
-
 ### Development Workflow
 
 1. **Fork** the repository
@@ -539,11 +535,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **FAISS** team for efficient similarity search
 - **Open Source Community** for the amazing tools and libraries
 
-## 📞 Support
-
-- **Documentation**: [Wiki](https://github.com/yourusername/iipc-archive-assistant/wiki)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/iipc-archive-assistant/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/iipc-archive-assistant/discussions)
 
 ## 🔮 Roadmap
 
