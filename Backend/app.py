@@ -47,7 +47,7 @@ def get_remote_embedding(text: str):
         print("Embedding API error:", str(e))
         return None
 
-def retrieve_top_k(query, k=8):
+def retrieve_top_k(query, k=10):
     query_embedding = get_remote_embedding(query)
     if not query_embedding:
         return []
