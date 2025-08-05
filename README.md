@@ -246,7 +246,7 @@ graph TB
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/iipc-archive-assistant.git
+   git clone https://github.com/Youssef-Sabri/iipc-archive-assistant.git
    cd iipc-archive-assistant
    ```
 
