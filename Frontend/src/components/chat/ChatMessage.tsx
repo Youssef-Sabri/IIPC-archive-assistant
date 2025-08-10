@@ -110,7 +110,13 @@ export function ChatMessage({ message }: ChatMessageProps) {
             isAssistant && "text-foreground",
             isSystem && "text-muted-foreground prose-muted"
           )}>
-            <p className="whitespace-pre-wrap text-sm sm:text-base leading-relaxed m-0">
+            <p className={cn(
+              "text-sm sm:text-base leading-relaxed m-0",
+              // Fix for URL wrapping - use break-words and break-all for long URLs
+              "whitespace-pre-wrap break-words [word-break:break-word] hyphens-auto",
+              // Additional CSS for better URL handling
+              "[overflow-wrap:anywhere]"
+            )}>
               {displayedContent}
               {message.isTyping && (
                 <span className="inline-block w-2 h-4 bg-current ml-1 animate-pulse" />
