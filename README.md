@@ -246,8 +246,8 @@ graph TB
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Youssef-Sabri/iipc-archive-assistant.git
-   cd iipc-archive-assistant
+   git clone https://github.com/Youssef-Sabri/iipc-assistant.git
+   cd iipc-assistant
    ```
 
 2. **Backend Setup**
@@ -331,7 +331,7 @@ graph TB
 ## 📁 Project Structure
 
 ```
-iipc-archive-assistant/
+iipc-assistant/
 ├── Backend/
 │   ├── app.py                 # Flask application entry point
 │   ├── embeddings.pkl         # Pre-computed vector embeddings
