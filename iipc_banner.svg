@@ -63,7 +63,7 @@
   
   <!-- Main Title -->
   <text x="220" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="bold" fill="url(#primaryGradient)" filter="url(#shadowFilter)">
-    IIPC Archive Assistant
+    IIPC Assistant
   </text>
   
   <!-- Subtitle -->
