@@ -21,7 +21,7 @@ interface Message {
 const initialMessages: Message[] = [
   {
     id: "welcome",
-    content: "Welcome to the IIPC Archive Assistant! I can help you explore conference materials, research papers, and presentations from the International Internet Preservation Consortium. Ask me about web archiving practices, quality assurance methods, technical standards, or any specific topics you're researching.",
+    content: "Welcome to the IIPC Assistant! I can help you explore conference materials, research papers, and presentations from the International Internet Preservation Consortium. Ask me about web archiving practices, quality assurance methods, technical standards, or any specific topics you're researching.",
     role: "system",
     timestamp: new Date()
   }
@@ -176,7 +176,7 @@ export default function Chat() {
                     <Sparkles className="w-6 h-6 sm:w-10 sm:h-10 text-primary" />
                   </div>
                   <h2 className="text-xl sm:text-3xl font-bold mb-2 sm:mb-4 bg-gradient-to-r from-primary to-research-green bg-clip-text text-transparent px-4">
-                    Welcome to IIPC Archive Assistant
+                    Welcome to IIPC Assistant
                   </h2>
                   <p className="text-muted-foreground mb-4 sm:mb-8 max-w-3xl mx-auto text-sm sm:text-lg leading-relaxed px-4">
                     I can help you explore conference materials, research papers, and presentations from the International Internet Preservation Consortium.

@@ -73,7 +73,7 @@ const Index = () => {
             </div>
             <div className="text-left max-w-xl">
               <h1 className="text-3xl sm:text-5xl font-bold mb-3 bg-gradient-to-r from-primary to-research-green bg-clip-text text-transparent">
-                IIPC Archive Assistant
+                IIPC Assistant
               </h1>
               <p className="text-base sm:text-xl text-muted-foreground font-semibold">
                 AI-Powered Web Archiving Research
@@ -267,7 +267,7 @@ const Index = () => {
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-4 sm:mb-6">
-            Ready to Explore IIPC Archives?
+            Ready to Explore IIPC Assistant?
           </h2>
 
           <p className="text-sm sm:text-base text-muted-foreground mb-6 sm:mb-8 leading-relaxed max-w-xl mx-auto">

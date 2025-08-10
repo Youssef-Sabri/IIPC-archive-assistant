@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Home,
@@ -55,7 +54,7 @@ export function AppSidebar() {
           {!collapsed && (
             <div>
               <h1 className="font-bold text-lg text-foreground leading-tight">
-                IIPC Archive Assistant
+                IIPC Assistant
               </h1>
               <p className="text-sm text-muted-foreground font-medium">
                 Web Archiving Research
@@ -137,7 +136,7 @@ export function AppSidebar() {
         {!collapsed ? (
           <div className="px-3 py-2 rounded-lg bg-gradient-to-r from-primary/10 to-research-green/10 backdrop-blur-sm border border-primary/10 bg-white/80 dark:bg-gray-800/80">
             <div className="text-xs text-muted-foreground font-medium text-center">
-              IIPC Archive Assistant v1.0
+              IIPC Assistant v1.0
             </div>
           </div>
         ) : (
