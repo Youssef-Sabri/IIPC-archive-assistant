@@ -1,6 +1,6 @@
-# IIPC Archive Assistant
+# IIPC Assistant
 
-![IIPC Archive Assistant Banner](iipc_banner.svg)
+![IIPC Assistant Banner](iipc_banner.svg)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
