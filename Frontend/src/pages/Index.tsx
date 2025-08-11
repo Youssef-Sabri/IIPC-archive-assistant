@@ -13,10 +13,9 @@ import {
   ExternalLink,
 } from "lucide-react";
 import iipcLogo from "@/assets/iipc-logo.svg";
-import { useRecentMaterials, useItemTypes, useIIPCData } from "@/hooks/use-iipc-data";
+import {useItemTypes, useIIPCData } from "@/hooks/use-iipc-data";
 
 const Index = () => {
-  const { materials, loading: materialsLoading, error: materialsError } = useRecentMaterials(3);
   const { itemTypes, loading: itemTypesLoading, error: itemTypesError } = useItemTypes();
   const { data: allMaterials, loading: allMaterialsLoading, error: allMaterialsError } = useIIPCData();
 
