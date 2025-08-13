@@ -8,6 +8,7 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 from flask_cors import CORS
 import traceback
+from collections import defaultdict
 
 # Load environment variables
 load_dotenv()
@@ -17,11 +18,12 @@ app = Flask(__name__)
 CORS(app)
 
 # Load FAISS index and texts
-with open("embeddings_v2.pkl", "rb") as f:
+with open("embeddings_v3.pkl", "rb") as f:
     data = pickle.load(f)
 
 embeddings = np.array(data["embeddings"]).astype("float32")
 combined_texts = data["combined_texts"]
+doc_ids = data["doc_ids"]
 
 index = faiss.IndexFlatL2(embeddings.shape[1])
 index.add(embeddings)
@@ -47,37 +49,101 @@ def get_remote_embedding(text: str):
         print("Embedding API error:", str(e))
         return None
 
-def retrieve_top_k(query, k=10):
+def retrieve_top_k(query, k_chunks=30, k_docs=3, k_final=10):
     query_embedding = get_remote_embedding(query)
     if not query_embedding:
         return []
-    distances, indices = index.search(np.array([query_embedding]).astype("float32"), k)
-    return [combined_texts[i] for i in indices[0]]
+
+    distances, indices = index.search(np.array([query_embedding]).astype("float32"), k_chunks)
+
+    # Collect initial results with doc_id
+    retrieved = []
+    for idx, dist in zip(indices[0], distances[0]):
+        retrieved.append({
+            "doc_id": doc_ids[idx],
+            "combined_text": combined_texts[idx],
+            "score": float(dist)
+        })
+
+    # Group by doc_id
+    doc_scores = defaultdict(list)
+    for r in retrieved:
+        doc_scores[r["doc_id"]].append(r)
+
+    # Rank docs by their best chunk score (lower distance = better)
+    ranked_docs = sorted(
+        doc_scores.items(),
+        key=lambda x: min(c["score"] for c in x[1])
+    )[:k_docs]
+
+    # From these top docs, flatten all chunks and re-sort
+    selected_chunks = []
+    for _, chunks in ranked_docs:
+        chunks_sorted = sorted(chunks, key=lambda c: c["score"])
+        selected_chunks.extend(chunks_sorted)
+
+    # Take top k_final chunks overall
+    final_results = sorted(selected_chunks, key=lambda c: c["score"])[:k_final]
+    return final_results
 
 def generate_response(query, context_docs):
-    context = "\n----\n".join(context_docs)
+    context_parts = []
+    for doc in context_docs:
+        context_parts.append(
+            f"{doc['combined_text']}\n----"
+        )
+    context = "\n".join(context_parts)
 
-    prompt = f"""You are an expert assistant specialized in web archiving, using ONLY the provided IIPC conference materials below.
+    prompt = f"""You are an expert digital preservation and web archiving assistant for the International Internet Preservation Consortium (IIPC). Your role is to provide comprehensive, accurate answers using ONLY the IIPC conference materials, presentations, and research papers provided below.
 
-Each document includes metadata fields like Title, Creator, Date, Subject, and Content, clearly labeled.
+CONTEXT UNDERSTANDING:
+Each document contains structured metadata including Title, Creator, Date, Subject, Description, Item Type, and extracted content from IIPC conferences spanning multiple years. These materials cover cutting-edge research, best practices, tools, and methodologies in web archiving and digital preservation.
 
-Answer the user's questions strictly based on this context about web archiving topics discussed in the IIPC conferences.
+RESPONSE REQUIREMENTS:
 
-Format your answer in clear, simple language without using markdown symbols such as asterisks, underscores, or other formatting characters.
+1. ACCURACY & SOURCE FIDELITY:
+   - Base your answers STRICTLY on the provided context
+   - Never add information from outside sources or general knowledge
+   - If information is insufficient, clearly state "Based on the available IIPC materials, I don't have enough information to fully answer this question"
 
-Use plain text bullet points or paragraphs to make the answer easy to read and understand.
+2. SOURCE ATTRIBUTION:
+   - When referencing specific information, mention the source document title and author when available
+   - For presentations, include the year of the conference when mentioned
+   - Example: "According to [Author Name]'s presentation '[Title]' from the [Year] IIPC conference..."
 
-If the question asks about a specific year or topic, base your answers only on the relevant information found in the context.
+3. COMPREHENSIVE COVERAGE:
+   - Synthesize information from multiple relevant documents when applicable
+   - Provide context about the evolution of topics across different conference years
+   - Include both theoretical concepts and practical implementations mentioned
 
-Do NOT make any assumptions or use knowledge beyond what is in the provided documents.
+4. TECHNICAL ACCURACY:
+   - Use precise terminology from web archiving and digital preservation fields
+   - Explain technical concepts clearly while maintaining accuracy
+   - Reference specific tools, standards (like WARC), and methodologies mentioned in the materials
 
-If the answer is not found in the context, respond with: "I don't know."
+5. RESPONSE STRUCTURE:
+   - Start with a direct answer to the main question
+   - Provide supporting details and examples from the materials
+   - When relevant, mention different perspectives or approaches from various presenters
+   - Conclude with practical implications or current relevance if discussed in the materials
 
-Context:
+6. FORMATTING:
+   - Use clear, professional language appropriate for researchers and practitioners
+   - Structure longer responses with clear paragraphs
+   - Use simple bullet points (with dashes) only when listing distinct items or steps
+   - Avoid markdown formatting symbols
+
+7. TEMPORAL CONTEXT:
+   - When discussing developments or trends, reference the timeframe based on conference dates
+   - Highlight how approaches or technologies have evolved according to the materials
+   - Note any historical context provided in the presentations
+
+Context from IIPC Conference Materials:
 {context}
 
-Question: {query}
-Answer:"""
+User Question: {query}
+
+Response:"""
 
     response = AiModel.generate_content(prompt)
     return response.text
@@ -85,15 +151,15 @@ Answer:"""
 @app.route("/chat", methods=["POST"])
 def chat():
     try:
-        data = request.get_json()
-        query = data.get("query")
+        data_req = request.get_json()
+        query = data_req.get("query")
         if not query:
             return jsonify({"error": "Query not provided"}), 400
 
         print(f"Received query: {query}")
 
         context_docs = retrieve_top_k(query)
-        print(f"Retrieved {len(context_docs)} context docs")
+        print(f"Retrieved {len(context_docs)} context chunks")
 
         if not context_docs:
             return jsonify({"response": "I don't know."})
