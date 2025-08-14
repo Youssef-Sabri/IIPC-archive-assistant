@@ -7,6 +7,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import Index from "./pages/Index";
 import Chat from "./pages/Chat";
+import Browse from "./pages/Browse";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 
@@ -41,7 +42,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/chat" element={<MainLayout><Chat /></MainLayout>} />
-          <Route path="/browse" element={<MainLayout><div className="p-8"><h1 className="text-2xl font-bold">Browse Materials</h1><p className="text-muted-foreground">Coming soon...</p></div></MainLayout>} />
+          <Route path="/browse" element={<MainLayout><Browse /></MainLayout>} />
           <Route path="/about" element={<MainLayout><About /></MainLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

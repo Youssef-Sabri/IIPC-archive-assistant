@@ -46,9 +46,8 @@ export default function Chat() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages.length]); // Only scroll when messages are added/removed, not during typing
+  }, [messages.length]); 
 
-  // Prevent zoom on iOS when focusing input
   useEffect(() => {
     const viewport = document.querySelector('meta[name="viewport"]');
     if (viewport) {
@@ -100,11 +99,9 @@ export default function Chat() {
       };
 
       setMessages(prev => [...prev, assistantMessage]);
-      setIsLoading(false); // Set loading to false immediately so input becomes available
+      setIsLoading(false); 
 
-      // The typing effect will be managed by the ChatMessage component
-      // After typing completes, update the message to remove typing state
-      const typingDuration = (fullText.length / 30) * 1000; // 30 chars/second
+      const typingDuration = (fullText.length / 30) * 1000; 
       setTimeout(() => {
         setMessages(prev => prev.map(msg =>
           msg.id === newMessageId 

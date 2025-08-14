@@ -13,7 +13,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import iipcLogo from "@/assets/iipc-logo.svg";
-import {useItemTypes, useIIPCData } from "@/hooks/use-iipc-data";
+import { useItemTypes, useIIPCData } from "@/hooks/use-iipc-data";
 
 const Index = () => {
   const { itemTypes, loading: itemTypesLoading, error: itemTypesError } = useItemTypes();
@@ -66,12 +66,14 @@ const Index = () => {
               <img
                 src={iipcLogo}
                 alt="IIPC Logo"
-                className="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-lg"
+                className="w-16 h-16 sm:w-20 sm:h-20 object-contain drop-shadow-lg relative z-10"
               />
-              <div className="absolute -inset-2 bg-gradient-to-r from-primary/30 to-research-green/30 rounded-full blur-xl"></div>
+              <div className="absolute -inset-2 bg-gradient-to-r from-primary/30 to-research-green/30 rounded-full blur-xl -z-10"></div>
             </div>
-            <div className="text-left max-w-xl">
-              <h1 className="text-3xl sm:text-5xl font-bold mb-3 bg-gradient-to-r from-primary to-research-green bg-clip-text text-transparent">
+
+            {/* Centered title and subtitle */}
+            <div className="text-center max-w-xl">
+              <h1 className="text-3xl sm:text-5xl font-bold mb-3 bg-gradient-to-r from-primary to-research-green bg-clip-text text-transparent mx-auto">
                 IIPC Assistant
               </h1>
               <p className="text-base sm:text-xl text-muted-foreground font-semibold">
@@ -299,7 +301,7 @@ const Index = () => {
                 className="flex items-center justify-center"
               >
                 <ExternalLink className="w-6 h-6 mr-3" />
-                Visit IIPC Site
+                Visit IIPC Website
               </a>
             </Button>
           </div>

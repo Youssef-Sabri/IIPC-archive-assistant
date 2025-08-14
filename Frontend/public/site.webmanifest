@@ -1,6 +1,6 @@
 {
-  "name": "IIPC Archive Assistant",
-  "short_name": "IIPC Archive Assistant",
+  "name": "IIPC Assistant",
+  "short_name": "IIPC Assistant",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",

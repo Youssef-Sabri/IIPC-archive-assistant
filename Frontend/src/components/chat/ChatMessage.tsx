@@ -15,6 +15,57 @@ interface ChatMessageProps {
   onShowCitations?: (sources: any[]) => void;
 }
 
+const urlRegex = /((https?:\/\/|www\.)[^\s<>]+)/gi;
+
+
+function linkifyToNodes(text: string) {
+  if (!text) return [text];
+
+  const nodes: Array<string | JSX.Element> = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  // reset regex state (in case of reused regex)
+  urlRegex.lastIndex = 0;
+
+  while ((match = urlRegex.exec(text)) !== null) {
+    const url = match[0];
+    const index = match.index;
+
+    // push preceding text
+    if (index > lastIndex) {
+      nodes.push(text.substring(lastIndex, index));
+    }
+
+    // determine proper href
+    const href = url.startsWith("http") ? url : `https://${url}`;
+
+    nodes.push(
+      <a
+        key={`link-${index}-${url}`}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline hover:text-primary transition-colors break-words"
+        onClick={(e) => {
+          /* allow external link open; if you want to capture analytics, do it here */
+        }}
+      >
+        {url}
+      </a>
+    );
+
+    lastIndex = index + url.length;
+  }
+
+  // push remaining text
+  if (lastIndex < text.length) {
+    nodes.push(text.substring(lastIndex));
+  }
+
+  // If no matches, return the original text as single string (keeps type consistent)
+  return nodes.length > 0 ? nodes : [text];
+}
+
 export function ChatMessage({ message }: ChatMessageProps) {
   const [displayedContent, setDisplayedContent] = useState(message.content);
   const animationFrameRef = useRef<number | null>(null);
@@ -28,31 +79,34 @@ export function ChatMessage({ message }: ChatMessageProps) {
       const startTime = Date.now();
       const typingSpeed = 30; // characters per second
       const fullText = message.fullContent;
-      
+
       const animate = () => {
         const elapsed = Date.now() - startTime;
         const charactersToShow = Math.min(
-          Math.floor((elapsed / 1000) * typingSpeed), 
+          Math.floor((elapsed / 1000) * typingSpeed),
           fullText.length
         );
-        
+
         const currentText = fullText.substring(0, charactersToShow);
         setDisplayedContent(currentText);
-        
+
         if (charactersToShow < fullText.length) {
           animationFrameRef.current = requestAnimationFrame(animate);
+        } else {
+          animationFrameRef.current = null;
         }
       };
-      
+
       animationFrameRef.current = requestAnimationFrame(animate);
-      
+
       return () => {
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
+          animationFrameRef.current = null;
         }
       };
     } else {
-      // Not typing, just display the content
+      // Not typing, just display the content (full)
       setDisplayedContent(message.content);
     }
   }, [message.isTyping, message.fullContent, message.content]);
@@ -62,9 +116,13 @@ export function ChatMessage({ message }: ChatMessageProps) {
     return () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
       }
     };
   }, []);
+
+  // Convert displayedContent string into nodes with links
+  const contentNodes = linkifyToNodes(displayedContent);
 
   return (
     <div
@@ -104,22 +162,38 @@ export function ChatMessage({ message }: ChatMessageProps) {
           )}
         >
           {/* Message Content */}
-          <div className={cn(
-            "prose prose-sm sm:prose-lg max-w-none leading-relaxed",
-            isUser && "text-primary-foreground prose-invert",
-            isAssistant && "text-foreground",
-            isSystem && "text-muted-foreground prose-muted"
-          )}>
-            <p className={cn(
-              "text-sm sm:text-base leading-relaxed m-0",
-              // Fix for URL wrapping - use break-words and break-all for long URLs
-              "whitespace-pre-wrap break-words [word-break:break-word] hyphens-auto",
-              // Additional CSS for better URL handling
-              "[overflow-wrap:anywhere]"
-            )}>
-              {displayedContent}
+          <div
+            className={cn(
+              "prose prose-sm sm:prose-lg max-w-none leading-relaxed",
+              isUser && "text-primary-foreground prose-invert",
+              isAssistant && "text-foreground",
+              isSystem && "text-muted-foreground prose-muted"
+            )}
+          >
+            <p
+              className={cn(
+                "text-sm sm:text-base leading-relaxed m-0",
+                // Fix for URL wrapping - use break-words and break-all for long URLs
+                "whitespace-pre-wrap break-words [word-break:break-word] hyphens-auto",
+                // Additional CSS for better URL handling
+                "[overflow-wrap:anywhere]"
+              )}
+            >
+              {contentNodes.map((node, idx) =>
+                typeof node === "string" ? (
+                  // Plain text
+                  <span key={`txt-${idx}`}>{node}</span>
+                ) : (
+                  // JSX element (anchor)
+                  <span key={`node-${idx}`}>{node}</span>
+                )
+              )}
+
               {message.isTyping && (
-                <span className="inline-block w-2 h-4 bg-current ml-1 animate-pulse" />
+                <span
+                  className="inline-block w-2 h-4 bg-current ml-1 animate-pulse"
+                  aria-hidden
+                />
               )}
             </p>
           </div>

@@ -50,10 +50,9 @@ export function ChatInput({
     }
   }, [message]);
 
-  // Prevent iOS zoom on focus
   const handleFocus = () => {
     setIsFocused(true);
-    // Prevent zoom on iOS
+
     if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
       const viewport = document.querySelector('meta[name="viewport"]');
       if (viewport) {
