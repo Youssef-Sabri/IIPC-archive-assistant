@@ -20,16 +20,14 @@
 - **Citation Support**: Transparent sourcing of information
 
 ### 📚 **Comprehensive Archive Access**
-- **Multi-format Support**: Papers, presentations, proceedings, and research materials
+- **Multi-format Support**: Posters, presentations, videos transcripts, and research materials
 - **Advanced Filtering**: Filter by year, type, author, and subject
 - **Metadata Rich**: Full bibliographic information and descriptions
 - **Direct Access**: Links to original materials via ARK URLs
 
 ### 🎨 **Modern User Experience**
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
-- **Dark/Light Themes**: Adaptive theming for better accessibility
 - **Smooth Animations**: Polished interactions and transitions
-- **Progressive Loading**: Fast initial load with lazy loading
 
 ### 🔧 **Technical Excellence**
 - **Vector Database**: FAISS-powered similarity search
@@ -110,7 +108,6 @@ def enhance_text_with_ai(text):
 
 **Performance Metrics:**
 - Processing rate: ~4.1 seconds per document (API rate limit compliance)
-- Content enhancement: 99.1% content preservation with improved readability
 - Quality improvement: Structured presentations from raw OCR text
 
 ### 🤖 **Semantic Search & Chatbot Development** (`build_embeddings_and_chatbot.ipynb`)
@@ -146,7 +143,6 @@ def retrieve_top_k(query, k=5):
 
 **Performance Specifications:**
 - **Vector Dimensions**: 768-dimensional embeddings for rich semantic representation
-- **Search Speed**: Sub-second query response times
 - **Accuracy**: High precision through semantic similarity matching
 - **Scalability**: Efficient handling of large document collections
 
@@ -169,12 +165,12 @@ def retrieve_top_k(query, k=5):
 
 ### 📊 **Pipeline Performance Metrics**
 
-| Stage | Input | Output | Quality Improvement |
-|-------|-------|--------|-------------------|
-| **Harvesting** | OAI-PMH Endpoint | 587 Raw Documents | 100% Successful Extraction |
-| **AI Enhancement** | Raw Text | Structured Content | average of 99.1% Content Preservation |
-| **Embedding Generation** | Enhanced Text | Vector Database | 768-dim Semantic Vectors |
-| **Chatbot Integration** | User Queries | AI Responses | Domain-Expert Accuracy |
+| Stage | Input | Output |
+|-------|-------|--------|
+| **Harvesting** | OAI-PMH Endpoint | 587 Raw Documents |
+| **AI Enhancement** | Raw Text | Structured Content |
+| **Embedding Generation** | Enhanced Text | Vector Database |
+| **Chatbot Integration** | User Queries | AI Responses |
 
 ### 🛠️ **Development Environment Setup**
 
