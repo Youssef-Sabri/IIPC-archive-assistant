@@ -17,8 +17,7 @@
 - **Semantic Search**: Find relevant materials using natural language queries
 - **AI-Powered Responses**: Get contextual answers from IIPC conference materials
 - **Real-time Chat Interface**: Interactive conversation with typing animations
-- **Citation Support**: Transparent sourcing of information
-
+- 
 ### 📚 **Comprehensive Archive Access**
 - **Multi-format Support**: Posters, presentations, videos transcripts, and research materials
 - **Advanced Filtering**: Filter by year, type, author, and subject
@@ -138,7 +137,6 @@ def retrieve_top_k(query, k=5):
 **RAG (Retrieval-Augmented Generation) System:**
 - **Semantic Retrieval**: FAISS-powered similarity search for relevant document chunks
 - **Context-Aware Generation**: Gemini AI provides responses grounded in retrieved content
-- **Source Transparency**: All responses include clear attribution to source materials
 - **Domain Expertise**: Specialized knowledge in web archiving, digital preservation, and IIPC topics
 
 **Performance Specifications:**
