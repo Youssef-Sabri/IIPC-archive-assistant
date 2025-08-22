@@ -172,7 +172,7 @@ def retrieve_top_k(query, k=5):
 | Stage | Input | Output | Quality Improvement |
 |-------|-------|--------|-------------------|
 | **Harvesting** | OAI-PMH Endpoint | 587 Raw Documents | 100% Successful Extraction |
-| **AI Enhancement** | Raw Text | Structured Content | 99.1% Content Preservation |
+| **AI Enhancement** | Raw Text | Structured Content | average of 99.1% Content Preservation |
 | **Embedding Generation** | Enhanced Text | Vector Database | 768-dim Semantic Vectors |
 | **Chatbot Integration** | User Queries | AI Responses | Domain-Expert Accuracy |
 
