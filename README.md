@@ -169,12 +169,12 @@ def retrieve_top_k(query, k=5):
 
 ### 📊 **Pipeline Performance Metrics**
 
-| Stage | Input | Output | Processing Time | Quality Improvement |
-|-------|-------|--------|----------------|-------------------|
-| **Harvesting** | OAI-PMH Endpoint | 587 Raw Documents | ~14 minutes | 100% Successful Extraction |
-| **AI Enhancement** | Raw Text | Structured Content | ~85 minutes | 99.1% Content Preservation |
-| **Embedding Generation** | Enhanced Text | Vector Database | ~9 minutes | 768-dim Semantic Vectors |
-| **Chatbot Integration** | User Queries | AI Responses | <1 second | Domain-Expert Accuracy |
+| Stage | Input | Output | Quality Improvement |
+|-------|-------|--------|-------------------|
+| **Harvesting** | OAI-PMH Endpoint | 587 Raw Documents | 100% Successful Extraction |
+| **AI Enhancement** | Raw Text | Structured Content | 99.1% Content Preservation |
+| **Embedding Generation** | Enhanced Text | Vector Database | 768-dim Semantic Vectors |
+| **Chatbot Integration** | User Queries | AI Responses | Domain-Expert Accuracy |
 
 ### 🛠️ **Development Environment Setup**
 
